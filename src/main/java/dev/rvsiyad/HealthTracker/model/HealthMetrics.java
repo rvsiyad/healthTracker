@@ -1,11 +1,9 @@
 package dev.rvsiyad.HealthTracker.model;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
@@ -17,8 +15,7 @@ public class HealthMetrics {
 	private int height;
 	private int age;
 	private String gender;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="userId")
+	@ManyToOne(optional = false)
 	private User user;
 	
 	
