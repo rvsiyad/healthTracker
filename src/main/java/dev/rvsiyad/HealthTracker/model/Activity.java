@@ -14,8 +14,9 @@ public class Activity {
 	private String exercise;
 	private int lenghtOfTime;
 	private String intensity;
-	@ManyToOne(optional = false)
-	private User user;
+
+	// @ManyToOne(optional = false)
+	// private User user;
 	
 	
 	public Long getActivityId() {
@@ -42,10 +43,10 @@ public class Activity {
 	public void setIntensity(String intensity) {
 		this.intensity = intensity;
 	}
-	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}
+	// public User getUser() {
+	// 	return user;
+	// }
+	// public void setUser(User user) {
+	// 	this.user = user;
+	// }
 }

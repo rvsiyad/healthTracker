@@ -46,6 +46,7 @@ public class User implements UserDetails{
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "health_metrics_id")
 	private HealthMetrics healthMetrics;
+	private Activity activity;
 
 	public User() {
 		super();
@@ -65,6 +66,7 @@ public class User implements UserDetails{
 		this.email = email;
 		this.authorities = authorities;
 		this.healthMetrics = null;
+		this.activity = null;
 	}
 
 	public Long getUserId() {
@@ -121,6 +123,15 @@ public class User implements UserDetails{
 		this.healthMetrics = healthMetrics;
 	}
 
+	public Activity getActivity() {
+		return activity;
+	}
+
+	public void setActivity(Activity activity) {
+		this.activity = activity;
+	}	
+	
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return this.authorities;
@@ -144,5 +155,6 @@ public class User implements UserDetails{
 	@Override
 	public boolean isEnabled() {
 		return true;
-	}	
+	}
+
 }
