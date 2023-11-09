@@ -4,7 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 
 @Entity
 public class HealthMetrics {
@@ -15,17 +14,18 @@ public class HealthMetrics {
 	private int height;
 	private int age;
 	private String gender;
-	@ManyToOne(optional = false)
-	private User user;
-	
-	
-	public User getUser() {
-		return user;
-	}
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+	// // @ManyToOne(optional = false)
+	// // private User user;
+	
+	
+	// public User getUser() {
+	// 	return user;
+	// }
+
+	// public void setUser(User user) {
+	// 	this.user = user;
+	// }
 
 	public Long getHealthMetricId() {
 		return healthMetricId;
