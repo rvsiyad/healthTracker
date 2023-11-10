@@ -26,6 +26,7 @@ public class AuthenticationService {
   @Autowired
   private PasswordEncoder passwordEncoder;
 
+  @Transactional
   public User registerUser(String username, String password) {
     String encodedPassword = passwordEncoder.encode(password);
     Role userRole = roleRepository.findByAuthority("USER").get();
