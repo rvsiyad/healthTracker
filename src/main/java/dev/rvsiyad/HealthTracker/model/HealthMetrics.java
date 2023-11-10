@@ -15,17 +15,15 @@ public class HealthMetrics {
 	private int age;
 	private String gender;
 
-	// // @ManyToOne(optional = false)
-	// // private User user;
-	
-	
-	// public User getUser() {
-	// 	return user;
-	// }
+		public HealthMetrics() {
+		}
 
-	// public void setUser(User user) {
-	// 	this.user = user;
-	// }
+	public HealthMetrics(int weight, int height, int age, String gender) {
+		this.weight = weight;
+		this.height = height;
+		this.age = age;
+		this.gender = gender;
+	}
 
 	public Long getHealthMetricId() {
 		return healthMetricId;

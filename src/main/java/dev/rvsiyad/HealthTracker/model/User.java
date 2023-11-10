@@ -22,20 +22,18 @@ import jakarta.persistence.Table;
 
 
 @Entity
-//define table as "users", user is a reserved word.
 @Table(name="users")
 public class User implements UserDetails{
 	
-	// private static final long serialVersionUID = -5865604812420059449L;
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id")
 	private Long userId;
 	private String username;
 	private String password;
 	private String email;
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
 		name = "user_role_function",
 		joinColumns = {@JoinColumn(name = "user_id")},
@@ -46,6 +44,9 @@ public class User implements UserDetails{
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "health_metrics_id")
 	private HealthMetrics healthMetrics;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "activity_id")
 	private Activity activity;
 
 	public User() {
