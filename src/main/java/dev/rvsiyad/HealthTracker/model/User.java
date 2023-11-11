@@ -25,11 +25,13 @@ import jakarta.persistence.Table;
 @Table(name="users")
 public class User implements UserDetails{
 	
-	private static final long serialVersionUID = -8544440929659708640L;
+//	private static final long serialVersionUID = -8544440929659708640L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id")
 	private Long userId;
+	
+	@Column(unique=true)
 	private String username;
 	private String password;
 	private String email;
@@ -66,6 +68,16 @@ public class User implements UserDetails{
 		this.username = username;
 		this.password = password;
 		this.email = email;
+		this.authorities = authorities;
+		this.healthMetrics = null;
+		this.activity = null;
+	}
+	
+	public User(Long userId, String username, String password, Set<Role> authorities) {
+		super();
+		this.userId = userId;
+		this.username = username;
+		this.password = password;
 		this.authorities = authorities;
 		this.healthMetrics = null;
 		this.activity = null;

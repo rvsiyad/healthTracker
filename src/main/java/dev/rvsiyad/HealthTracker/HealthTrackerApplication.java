@@ -27,12 +27,12 @@ public class HealthTrackerApplication {
 		return args -> {
 			if(roleRepository.findByAuthority("ADMIN").isPresent()) return;
 			Role adminRole = roleRepository .save(new Role("ADMIN"));
-			roleRepository.save(new Role("User"));
+			roleRepository.save(new Role("USER"));
 			
 			Set<Role> roles = new HashSet<>();
 			roles.add(adminRole);
 
-			User admin = new User(1L, "admin", passwordEncoder.encode("password"), "admin123@gmail.com", roles);
+			User admin = new User(1L, "admin", passwordEncoder.encode("password"), roles);
 			userRepository.save(admin);
 		} ;
 	}
