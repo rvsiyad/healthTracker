@@ -25,6 +25,7 @@ import jakarta.persistence.Table;
 @Table(name="users")
 public class User implements UserDetails{
 	
+	private static final long serialVersionUID = -8544440929659708640L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id")
@@ -33,7 +34,7 @@ public class User implements UserDetails{
 	private String password;
 	private String email;
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 		name = "user_role_function",
 		joinColumns = {@JoinColumn(name = "user_id")},
