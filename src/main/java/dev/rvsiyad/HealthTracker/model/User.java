@@ -24,8 +24,8 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name="users")
 public class User implements UserDetails{
-	
-//	private static final long serialVersionUID = -8544440929659708640L;
+
+	private static final long serialVersionUID = -8544440929659708640L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id")

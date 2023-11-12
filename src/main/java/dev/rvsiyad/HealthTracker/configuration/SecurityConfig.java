@@ -1,11 +1,14 @@
 package dev.rvsiyad.HealthTracker.configuration;
 
+import java.util.Arrays;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,6 +20,9 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
@@ -28,6 +34,7 @@ import com.nimbusds.jose.proc.SecurityContext;
 import dev.rvsiyad.HealthTracker.utils.RSAKeyProperties;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 	
 	private final RSAKeyProperties keys;
@@ -94,6 +101,18 @@ public class SecurityConfig {
 		  jwtConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
 		  return jwtConverter;
 	  }
+	  
+	//cors configuration allows localhost3000 to make all requests using all headers
+		@Bean
+		CorsConfigurationSource corsConfigurationSource() {
+			CorsConfiguration configuration = new CorsConfiguration();
+			configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173/"));
+			configuration.setAllowedMethods(Arrays.asList(CorsConfiguration.ALL));
+			configuration.setAllowedHeaders(Arrays.asList(CorsConfiguration.ALL));
+			UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+			source.registerCorsConfiguration("/**", configuration);
+			return source;
+		}
   
   
 }
