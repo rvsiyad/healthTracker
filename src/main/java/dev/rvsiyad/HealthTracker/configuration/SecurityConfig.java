@@ -1,7 +1,5 @@
 package dev.rvsiyad.HealthTracker.configuration;
 
-import java.util.Arrays;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,9 +18,8 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
@@ -57,7 +54,7 @@ public class SecurityConfig {
 	  }
 	
 	  @Bean
-	  SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+	  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 	    http
 	      .csrf(csrf -> csrf.disable())
 	      .authorizeHttpRequests(auth -> {
@@ -65,14 +62,10 @@ public class SecurityConfig {
 	    	  auth.requestMatchers("/admin/**").hasRole("ADMIN");
 	    	  auth.requestMatchers("/user/**").hasAnyRole("ADMIN", "USER");
 	    	  auth.anyRequest().authenticated();
-	      });
-	    
-	    http
-	      .oauth2ResourceServer()
-	      .jwt()
-	      .jwtAuthenticationConverter(jwtAuthenticationConverter());
-	    
-	    http
+	      })
+	      .oauth2ResourceServer(oauth -> oauth.jwt((jwt -> {
+	    	  jwt.jwtAuthenticationConverter(jwtAuthenticationConverter());
+	      })))
 	      .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 	    
 	    return http.build();
@@ -102,16 +95,15 @@ public class SecurityConfig {
 		  return jwtConverter;
 	  }
 	  
-	//cors configuration allows localhost3000 to make all requests using all headers
-		@Bean
-		CorsConfigurationSource corsConfigurationSource() {
-			CorsConfiguration configuration = new CorsConfiguration();
-			configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173/"));
-			configuration.setAllowedMethods(Arrays.asList(CorsConfiguration.ALL));
-			configuration.setAllowedHeaders(Arrays.asList(CorsConfiguration.ALL));
-			UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-			source.registerCorsConfiguration("/**", configuration);
-			return source;
+	  @Bean
+	  public WebMvcConfigurer corsConfigurer() {
+			return new WebMvcConfigurer() {
+				@Override
+				public void addCorsMappings(CorsRegistry registry) {
+					registry.addMapping("/**").allowedOrigins("http://localhost:3000")
+							.allowedMethods("*");
+				}
+			};
 		}
   
   
