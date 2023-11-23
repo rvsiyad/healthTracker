@@ -1,14 +1,25 @@
+import { useEffect } from "react";
 import "./App.css";
 
 function App() {
-  console.log("Hello World!");
+  //console.log("Hello World!");
 
-  fetch("auth/login", {
-    headers: {
-      "Content-Type": "application/json",
-    }, 
-    method: "post",
-  });
+  useEffect(() => {
+    fetch("http://localhost:8080/auth/register", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: "user123",
+        password: "password123",
+      }),
+      method: "post",
+    }).then((response) => {
+      if (response.status === 200) {
+        console.log("success");
+      }
+    });
+  }, []);
 
   return (
     <div className="App">
